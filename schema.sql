@@ -4,8 +4,9 @@ CREATE TABLE animals (
     id serial PRIMARY KEY,
     name varchar(100) not null,
     date_of_birth date not null,
-    escape_attempts int,
-    neutered boolean,
+    escape_attempts int not null,
+    neutered boolean not null,
     weight_kg decimal not null
 );
 
+ALTER TABLE animals ADD species varchar(100);
