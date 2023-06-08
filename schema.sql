@@ -8,10 +8,6 @@ CREATE TABLE animals (
     weight_kg decimal not null
 );
 
-ALTER TABLE animals ADD species varchar(100);
-ALTER TABLE animals ADD COLUMN id serial PRIMARY KEY;
-ALTER TABLE animals DROP COLUMN species;
-
 -- owners
 CREATE TABLE owners (
     id serial PRIMARY KEY,
