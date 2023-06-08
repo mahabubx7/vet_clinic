@@ -140,9 +140,11 @@ WHERE vt.name = 'Stephanie Mendez' AND v.visit_date BETWEEN '2020-04-01' AND '20
 
 
 -- What animal has the most visits to vets?
-SELECT a.name AS animal_name, COUNT(*) AS visit_count FROM animals a
-INNER JOIN visits v ON v.animal_id = a.id
-GROUP BY a.name ORDER BY visit_count DESC LIMIT 1;
+SELECT animals.name FROM (
+  SELECT count (*) as num_of_visit, animal_id
+  FROM visits GROUP BY animal_id ORDER BY num_of_visit DESC LIMIT 1
+  ) 
+top_visit JOIN animals ON top_visit.animal_id = animals.id;
 
 -- Who was Maisy Smith's first visit?
 SELECT a.name AS animal_name FROM animals a
@@ -159,21 +161,23 @@ ORDER BY v.visit_date DESC LIMIT 1;
 
 
 -- How many visits were with a vet that did not specialize in that animal's species?
-SELECT COUNT(*) AS total_visits FROM visits v
-INNER JOIN animals a ON a.id = v.animal_id
-INNER JOIN vets vt ON vt.id = v.vet_id
-LEFT JOIN specializations sp ON sp.vet_id = vt.id AND sp.species_id = a.species_id
-WHERE sp.vet_id IS NULL;
+SELECT count (*) FROM (
+  SELECT vets.name, species.name, vets.id
+  FROM vets LEFT JOIN specializations ON vets.id = specializations.vet_id 
+  LEFT JOIN species ON species.id = specializations.species_id
+  WHERE species.name IS NULL
+) AS no_specializations
+JOIN visits ON visits.vet_id = no_specializations.id;
 
 
 -- What specialty should Maisy Smith consider getting? Look for the species she gets the most.
-SELECT s.name AS specialty FROM visits v
-INNER JOIN animals a ON a.id = v.animal_id
-INNER JOIN vets vt ON vt.id = v.vet_id
-INNER JOIN specializations sp ON sp.vet_id = vt.id
-INNER JOIN species s ON s.id = sp.species_id
-WHERE vt.name = 'Maisy Smith' GROUP BY s.name
-ORDER BY COUNT(*) DESC LIMIT 1;
-
+SELECT top_visited FROM (
+  SELECT COUNT(*) as most_animal, species.name as top_visited
+  FROM vets JOIN visits ON visits.vet_id = vets.id
+  JOIN animals ON animals.id = visits.animal_id
+  JOIN species ON species.id = animals.species_id
+  WHERE vets.name = 'Maisy Smith' GROUP BY species.name
+  ORDER BY most_animal DESC LIMIT 1
+) as most_visits;
 
 
