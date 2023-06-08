@@ -1,4 +1,4 @@
-# curriculum-databases-projects-template
+# Vet Clinic - Database
 
 <a name="readme-top"></a>
 
