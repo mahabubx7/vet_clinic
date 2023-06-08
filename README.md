@@ -1,16 +1,4 @@
-# curriculum-databases-projects-template
-
-> This template should be used for database related projects at Microverse.
-> Generate your own repository, update this README and edit all files content while working on projects. You should not be adding any new files unless asked otherwise.
-
-
-## Getting Started
-
-This repository includes files with plain SQL that can be used to recreate a database:
-
-- Use [schema.sql](./schema.sql) to create all tables.
-- Use [data.sql](./data.sql) to populate tables with sample data.
-- Check [queries.sql](./queries.sql) for examples of queries that can be run on a newly created database. **Important note: this file might include queries that make changes in the database (e.g., remove records). Use them responsibly!**
+# Vet Clinic - Database
 
 <a name="readme-top"></a>
 
@@ -45,14 +33,14 @@ After you're finished please remove all the comments and instructions!
   - [🛠 Built With](#built-with)
     - [Tech Stack](#tech-stack)
     - [Key Features](#key-features)
-  - [🚀 Live Demo](#live-demo)
+  <!-- - [🚀 Live Demo](#live-demo) -->
 - [💻 Getting Started](#getting-started)
   - [Setup](#setup)
   - [Prerequisites](#prerequisites)
   - [Install](#install)
   - [Usage](#usage)
   - [Run tests](#run-tests)
-  - [Deployment](#triangular_flag_on_post-deployment)
+  <!-- - [Deployment](#triangular_flag_on_post-deployment) -->
 - [👥 Authors](#authors)
 - [🔭 Future Features](#future-features)
 - [🤝 Contributing](#contributing)
@@ -65,7 +53,6 @@ After you're finished please remove all the comments and instructions!
 
 # 📖 [Vet Clinic] <a name="about-project"></a>
 
-> Describe your project in 1 or 2 sentences.
 
 **[Vet Clinic]** is a psql (postgresql) based project for a vet clinic.  
 
@@ -73,7 +60,6 @@ After you're finished please remove all the comments and instructions!
 
 ### Tech Stack <a name="tech-stack"></a>
 
-> Describe the tech stack and include only the relevant sections that apply to your project.
 
 <!-- <details>
   <summary>Client</summary>
@@ -100,8 +86,6 @@ After you're finished please remove all the comments and instructions!
 
 ### Key Features <a name="key-features"></a>
 
-> Describe between 1-3 key features of the application.
-
 - **[Pets neutered tracking]**
 - **[Pets escape_attempts monitoring]**
 - **[Species catalog]**
@@ -110,20 +94,24 @@ After you're finished please remove all the comments and instructions!
 
 <!-- LIVE DEMO -->
 
-## 🚀 Live Demo <a name="live-demo"></a>
+<!-- ## 🚀 Live Demo <a name="live-demo"></a>
 
-> Add a link to your deployed project.
-Will be added later.
+Will be added later. -->
 
 <!-- - [Live Demo Link](<replace-with-your-deployment-URL>) -->
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<!-- <p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 <!-- GETTING STARTED -->
 
-## 💻 Getting Started <a name="getting-started"></a>
+## 💻 Getting Started <a name="getting-started"></a>.
 
-> Describe how a new developer could make use of your project.
+This repository includes files with plain SQL that can be used to recreate a database:
+
+- Use [schema.sql](./schema.sql) to create all tables.
+- Use [data.sql](./data.sql) to populate tables with sample data.
+- Check [queries.sql](./queries.sql) for examples of queries that can be run on a newly created database. **Important note: this file might include queries that make changes in the database (e.g., remove records). Use them responsibly!**
+
 
 To get a local copy up and running, follow these steps.
 
@@ -131,26 +119,25 @@ To get a local copy up and running, follow these steps.
 
 In order to run this project you need:
 
-<!--
-Example command:
+ `psql` should be available
 
-```sh
+<!-- ```sh
  gem install rails
+``` -->
+```sh
+ psql --version
 ```
- -->
+
 
 ### Setup
 
 Clone this repository to your desired folder:
 
-<!--
-Example commands:
 
 ```sh
-  cd my-folder
-  git clone git@github.com:myaccount/my-project.git
+  git clone git@github.com:mahabubx7/vet_clinic.git
 ```
---->
+-
 
 ### Install
 
@@ -164,10 +151,22 @@ Example command:
   gem install
 ```
 --->
+```sh
+  cd vet_clinic
+  createdb vet_clinic;
+  psql -U <your_username> -d vet_clinic
+```
+Now, copy `schema.sql` queries into the psql & execute to install schemas.
+Later, copy `data.sql` queries into the psql to insert data.
 
 ### Usage
 
 To run the project, execute the following command:
+
+```sh
+psql -U <your_username> -d vet_clinic
+```
+
 
 <!--
 Example command:
@@ -179,7 +178,8 @@ Example command:
 
 ### Run tests
 
-To run tests, run the following command:
+Right now, it is not available for this project. Though you can query to get required values as testing.
+<!-- To run tests, run the following command: -->
 
 <!--
 Example command:
@@ -189,9 +189,10 @@ Example command:
 ```
 --->
 
-### Deployment
+<!-- ### Deployment
+Not applicable for now. -->
 
-You can deploy this project using:
+<!-- You can deploy this project using: -->
 
 <!--
 Example:
@@ -201,13 +202,11 @@ Example:
 ```
  -->
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<!-- <p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 <!-- AUTHORS -->
 
 ## 👥 Authors <a name="authors"></a>
-
-> Mention all of the collaborators of this project.
 
 👤 **Mahabub Alam**
 
@@ -221,8 +220,6 @@ Example:
 <!-- FUTURE FEATURES -->
 
 ## 🔭 Future Features <a name="future-features"></a>
-
-> Describe 1 - 3 features you will add to the project.
 
 - [ ] **[Pets report card]**
 - [ ] **[Appointment system]**
@@ -243,9 +240,7 @@ Feel free to check the [issues page](../../issues/).
 
 ## ⭐️ Show your support <a name="support"></a>
 
-> Write a message to encourage readers to support your project
-
-If you like this project...
+If you like this project please give it a star.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -253,17 +248,13 @@ If you like this project...
 
 ## 🙏 Acknowledgments <a name="acknowledgements"></a>
 
-> Give credit to everyone who inspired your codebase.
-
-I would like to thank... microverse.
+I would like to thank microverse.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- FAQ (optional) -->
 
 ## ❓ FAQ <a name="faq"></a>
-
-> Add at least 2 questions new developers would ask when they decide to use your project.
 
 - **[What is SQL?]**
 

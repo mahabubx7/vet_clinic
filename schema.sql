@@ -1,5 +1,4 @@
-/* Database schema to keep the structure of entire database. */
-
+-- animals
 CREATE TABLE animals (
     id serial PRIMARY KEY,
     name varchar(100) not null,
@@ -9,4 +8,19 @@ CREATE TABLE animals (
     weight_kg decimal not null
 );
 
-ALTER TABLE animals ADD species varchar(100);
+-- owners
+CREATE TABLE owners (
+    id serial PRIMARY KEY,
+    full_name varchar(100),
+    age integer
+);
+
+-- species
+CREATE TABLE species (
+    id serial PRIMARY KEY,
+    name varchar(100)
+);
+
+-- upadte animals & others relations
+ALTER TABLE animals ADD COLUMN species_id integer REFERENCES species(id);
+ALTER TABLE animals ADD COLUMN owner_id integer REFERENCES owners(id);
