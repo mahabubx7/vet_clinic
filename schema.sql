@@ -1,74 +1,71 @@
+/* Database schema to keep the structure of entire database. */
 CREATE TABLE animals (
-  id int generated always AS identity, 
-  name varchar(50) NOT NULL, 
-  date_of_birth date, 
-  escape_attempts integer, 
-  neutered bit, 
-  weight_kg decimal, 
-  PRIMARY KEY (id)
+    id INT GENERATED ALWAYS AS IDENTITY,
+    name varchar(100),
+    date_of_birth DATE,
+    escape_attempts INT,
+    neutered BOOLEAN,
+    weight_kg DECIMAL(5, 2),
+	PRIMARY KEY (id)
 );
 
-ALTER TABLE animals ADD COLUMN species varchar(50);
+ALTER TABLE animals ADD COLUMN species varchar(100);
 
+-- multiple tables -------------------
 
-CREATE TABLE owners (
-  id int generated always AS identity NOT NULL,
-  full_name varchar(50),
-  age integer, 
-  PRIMARY KEY (id)
+-- species
+CREATE TABLE species(
+	id INT GENERATED ALWAYS AS IDENTITY,
+	name varchar(200),
+	PRIMARY KEY(id)
 );
 
-
-CREATE TABLE species (
-  id int generated always AS identity NOT NULL,
-  name varchar(50),
-  PRIMARY key(id)
+-- owners
+CREATE TABLE owners(
+	id INT GENERATED ALWAYS AS IDENTITY,
+	full_name varchar(200),
+    age INT,
+	PRIMARY KEY(id)
 );
 
+-- modify animals table
+ALTER TABLE animals DROP column species;
 
-ALTER TABLE animals DROP COLUMN species;
-ALTER TABLE animals ADD COLUMN species_id integer;
+ALTER TABLE animals ADD species_id INT REFERENCES species(id);
 
+ALTER TABLE animals ADD owners_id INT REFERENCES owners(id);
 
-ALTER TABLE animals ADD CONSTRAINT fk_species
-FOREIGN KEY(species_id) REFERENCES species(id) ON
-DELETE CASCADE;
-
-
-ALTER TABLE animals ADD COLUMN owner_id integer;
-
-
-ALTER TABLE animals ADD CONSTRAINT fk_owners
-FOREIGN KEY(owner_id) REFERENCES owners(id) ON
-DELETE CASCADE;
-
-
-CREATE TABLE vets (
-  id int generated always AS identity,
-  name varchar(50),
-  age integer, 
-  date_of_graduation date, 
-  PRIMARY KEY(id)
+-- vets table
+CREATE TABLE vets(
+	id INT GENERATED ALWAYS AS IDENTITY,
+	name varchar(200),
+	age INT,
+    graduation_date DATE,
+	PRIMARY KEY(id)
 );
 
 
-CREATE TABLE specializations (
-  vet_id integer, 
-  species_id integer, 
-  CONSTRAINT fk_vets
-  FOREIGN key(vet_id) REFERENCES vets(id),
-  CONSTRAINT fk_species_spec
-  FOREIGN KEY(species_id) REFERENCES species(id),
-  PRIMARY KEY(vet_id, species_id)
+-- junction tables
+
+BEGIN;
+
+ALTER TABLE animals ADD CONSTRAINT animals_id_unique UNIQUE (id);
+
+COMMIT;
+
+CREATE TABLE visits(
+	id INT GENERATED ALWAYS AS IDENTITY,
+	vet_id INT REFERENCES vets(id),
+	animal_id INT REFERENCES animals(id),
+  date DATE,
+	PRIMARY KEY(id)
 );
 
 
-CREATE TABLE visits (
-  animal_id integer, 
-  vet_id integer, 
-  date_of_visit date, 
-  CONSTRAINT fk_animal_visit
-  FOREIGN key(animal_id) REFERENCES animals(id),
-  CONSTRAINT fk_vets_visit FOREIGN key(vet_id) REFERENCES vets(id),
-  PRIMARY KEY(animal_id, vet_id, date_of_visit)
+CREATE TABLE specializations(
+	id INT GENERATED ALWAYS AS IDENTITY,
+	vet_id INT REFERENCES vets(id),
+	species_id INT REFERENCES species(id),
+	PRIMARY KEY(id)
 );
+
