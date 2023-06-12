@@ -1,71 +1,65 @@
 /* Database schema to keep the structure of entire database. */
 CREATE TABLE animals (
-    id INT GENERATED ALWAYS AS IDENTITY,
+    id INTEGER GENERATED ALWAYS AS IDENTITY,
     name varchar(100),
     date_of_birth DATE,
     escape_attempts INT,
     neutered BOOLEAN,
-    weight_kg DECIMAL(5, 2),
-	PRIMARY KEY (id)
+    weight_kg DECIMAL,
+		PRIMARY KEY (id)
 );
 
 ALTER TABLE animals ADD COLUMN species varchar(100);
 
 -- multiple tables -------------------
 
--- species
-CREATE TABLE species(
-	id INT GENERATED ALWAYS AS IDENTITY,
-	name varchar(200),
+-- owners
+CREATE TABLE owners(
+	id INTEGER GENERATED ALWAYS AS IDENTITY,
+	full_name varchar(200),
+  age INTEGER,
 	PRIMARY KEY(id)
 );
 
--- owners
-CREATE TABLE owners(
-	id INT GENERATED ALWAYS AS IDENTITY,
-	full_name varchar(200),
-    age INT,
+-- species
+CREATE TABLE species(
+	id INTEGER GENERATED ALWAYS AS IDENTITY,
+	name varchar(200) NOT NULL,
 	PRIMARY KEY(id)
 );
 
 -- modify animals table
 ALTER TABLE animals DROP column species;
 
-ALTER TABLE animals ADD species_id INT REFERENCES species(id);
+ALTER TABLE animals ADD species_id INTEGER REFERENCES species(id) ON DELETE CASCADE;
 
-ALTER TABLE animals ADD owners_id INT REFERENCES owners(id);
+ALTER TABLE animals ADD owner_id INTEGER REFERENCES owners(id) ON DELETE CASCADE;
 
 -- vets table
 CREATE TABLE vets(
-	id INT GENERATED ALWAYS AS IDENTITY,
-	name varchar(200),
-	age INT,
-    graduation_date DATE,
+	id INTEGER GENERATED ALWAYS AS IDENTITY,
+	name varchar(200) NOT NULL,
+	age INTEGER NOT NULL,
+  date_of_graduation DATE NOT NULL,
 	PRIMARY KEY(id)
 );
 
 
 -- junction tables
-
-BEGIN;
-
-ALTER TABLE animals ADD CONSTRAINT animals_id_unique UNIQUE (id);
-
-COMMIT;
+CREATE TABLE specializations(
+	vet_id INTEGER REFERENCES vets(id) ON DELETE CASCADE,
+	species_id INTEGER REFERENCES species(id) ON DELETE CASCADE
+);
 
 CREATE TABLE visits(
-	id INT GENERATED ALWAYS AS IDENTITY,
-	vet_id INT REFERENCES vets(id),
-	animal_id INT REFERENCES animals(id),
-  date DATE,
-	PRIMARY KEY(id)
+	vet_id INTEGER REFERENCES vets(id) ON DELETE CASCADE,
+	animal_id INTEGER REFERENCES animals(id) ON DELETE CASCADE,
+  date_of_visit DATE NOT NULL
 );
 
 
-CREATE TABLE specializations(
-	id INT GENERATED ALWAYS AS IDENTITY,
-	vet_id INT REFERENCES vets(id),
-	species_id INT REFERENCES species(id),
-	PRIMARY KEY(id)
-);
+ALTER TABLE owners ADD COLUMN email VARCHAR(120);
 
+CREATE INDEX owners_email_idx ON owners(email);
+CREATE INDEX visits_animal_id_index ON visits(animal_id);
+CREATE INDEX visits_vet_id_index ON visits(vet_id);
