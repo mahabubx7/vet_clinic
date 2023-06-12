@@ -87,3 +87,7 @@ UPDATE animals
 SET species_name = species.name
 FROM species
 WHERE animals.species_id = species.id;
+
+CREATE INDEX idx_owners_email ON owners (email);
+ANALYZE owners;
+ANALYZE animals;
