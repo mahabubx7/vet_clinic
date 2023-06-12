@@ -69,3 +69,21 @@ CREATE TABLE specializations(
 	PRIMARY KEY(id)
 );
 
+
+-- Add an email column to your owners table
+ALTER TABLE owners ADD COLUMN email VARCHAR(120);
+
+-- optimizing changes
+ALTER TABLE animals ADD COLUMN species_name varchar(200);
+
+CREATE TABLE animal_summary (
+    total_weight DECIMAL(10, 2)
+);
+
+ALTER TABLE animals ADD COLUMN age_years INT;
+UPDATE animals SET age_years = EXTRACT(YEAR FROM AGE(CURRENT_DATE, date_of_birth));
+
+UPDATE animals
+SET species_name = species.name
+FROM species
+WHERE animals.species_id = species.id;
