@@ -1,6 +1,7 @@
 # Vet Clinic - Database
 
 <a name="readme-top"></a>
+![drawSQL-vet-clinic-export-2023-06-13](https://github.com/mahabubx7/vet_clinic/assets/122348996/182d07fd-df08-43c0-aedd-6d89e29ffd27)
 
 
 <!-- TABLE OF CONTENTS -->
