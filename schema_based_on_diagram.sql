@@ -36,3 +36,31 @@ CREATE TABLE invoices (
 
 ALTER TABLE invoices ADD medical_history_id INTEGER 
 REFERENCES medical_histories(id) ON DELETE CASCADE;
+
+-- invoice_items
+CREATE TABLE invoice_items (
+  id INTEGER GENERATED ALWAYS AS IDENTITY,
+  unit_price DECIMAL NOT NULL,
+  quantity INTEGER NOT NULL,
+  total_price DECIMAL NOT NULL,
+  PRIMARY KEY(id)
+);
+
+ALTER TABLE invoice_items ADD invoice_id INTEGER 
+REFERENCES invoices(id) ON DELETE CASCADE;
+
+ALTER TABLE invoice_items ADD treatment_id INTEGER 
+REFERENCES treatments(id) ON DELETE CASCADE;
+
+-- medical_histories :: treatments (Many to Many)
+CREATE TABLE medical_treatments_history (
+  medical_history_id INTEGER REFERENCES medical_histories(id) ON DELETE CASCADE,
+  treatment_id INTEGER REFERENCES treatments(id) ON DELETE CASCADE
+);
+
+CREATE INDEX patient_id_idx ON medical_histories(patient_id);
+CREATE INDEX medical_history_id_idx ON invoices(medical_history_id);
+CREATE INDEX invoice_id_idx ON invoice_items(invoice_id);
+CREATE INDEX treatment_id_idx ON invoice_items(treatment_id);
+CREATE INDEX medical_history_id_idx ON medical_treatments_history(medical_history_id);
+CREATE INDEX treatment_history_id_idx ON medical_treatments_history(treatment_id);
